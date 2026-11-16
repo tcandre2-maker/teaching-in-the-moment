@@ -1244,7 +1244,7 @@ details.transcript{border-color:#e8e1ed;background:#fff}
 <section class="screen" data-label="Section 6">
   <div class="sectionhead"><div><div class="eyebrow">Section 6 · Final Challenge</div><h2>Twenty decisions. One integrated clinical judgment.</h2><p class="lede">Mastery requires at least 16 of 20 correct (80%) and all five designated scope/consultation items correct.</p></div><div class="num">6</div></div>
   <div id="final"></div>
-  <div class="foot"><button class="btn secondary" data-prev>Back</button><button class="btn cyan" id="submitFinal" disabled>Submit Final Challenge</button></div>
+  <div class="foot"><button type="button" class="btn secondary" data-prev>Back</button><button type="button" class="btn cyan" id="submitFinal" disabled>Submit Final Challenge</button></div>
 </section>
 
 <section class="screen" data-label="Results">
@@ -1492,7 +1492,33 @@ const finals=[
 [4,true,"An RBT is asked to score a community performance using a new mastery criterion that is not in the current plan. What should happen?",["Use the new criterion as an informal experiment.","Change the response definition and document afterward.","Do not change criteria independently; request the BCBA's written direction."],2,"Changing mastery criteria or scoring definitions is outside independent RBT scope."]
 ];
 let finalAttempt=0;const ans=Array(finals.length).fill(null),fw=document.getElementById('final');
-function renderFinal(){fw.innerHTML='';finals.forEach((x,i)=>{const c=document.createElement('div');c.className='qcard';c.style.marginBottom='16px';c.innerHTML=`<div class="qmeta">Decision ${i+1} · Objective ${x[0]}${x[1]?' · Scope/Consultation':''}</div><h3>${x[2]}</h3><div class="choices">${x[3].map((t,j)=>`<button class="choice ${ans[i]===j?'selected':''}" data-fi="${i}" data-fc="${j}">${t}</button>`).join('')}</div>`;fw.appendChild(c)});document.querySelectorAll('[data-fc]').forEach(b=>b.onclick=()=>{ans[+b.dataset.fi]=+b.dataset.fc;renderFinal();document.getElementById('submitFinal').disabled=ans.some(v=>v===null)});document.getElementById('submitFinal').disabled=ans.some(v=>v===null)}
+function renderFinal(){
+  fw.innerHTML='';
+  finals.forEach((x,i)=>{
+    const c=document.createElement('div');
+    c.className='qcard';
+    c.style.marginBottom='16px';
+    c.innerHTML=`<div class="qmeta">Decision ${i+1} · Objective ${x[0]}${x[1]?' · Scope/Consultation':''}</div><h3>${x[2]}</h3><div class="choices">${x[3].map((t,j)=>`<button type="button" class="choice ${ans[i]===j?'selected':''}" data-fi="${i}" data-fc="${j}" aria-pressed="${ans[i]===j}">${t}</button>`).join('')}</div>`;
+    fw.appendChild(c);
+  });
+  document.getElementById('submitFinal').disabled=ans.some(v=>v===null);
+}
+fw.addEventListener('click',event=>{
+  const choice=event.target.closest('button[data-fi][data-fc]');
+  if(!choice||!fw.contains(choice))return;
+  event.preventDefault();
+  const item=Number(choice.dataset.fi);
+  const selected=Number(choice.dataset.fc);
+  if(!Number.isInteger(item)||!Number.isInteger(selected)||!finals[item]||selected<0||selected>=finals[item][3].length)return;
+  ans[item]=selected;
+  const question=choice.closest('.qcard');
+  question.querySelectorAll('button[data-fi][data-fc]').forEach(button=>{
+    const active=Number(button.dataset.fc)===selected;
+    button.classList.toggle('selected',active);
+    button.setAttribute('aria-pressed',String(active));
+  });
+  document.getElementById('submitFinal').disabled=ans.some(value=>value===null);
+});
 renderFinal();
 document.getElementById('submitFinal').onclick=()=>{let score=0,scope=true;const by={1:[0,0],2:[0,0],3:[0,0],4:[0,0]};finals.forEach((x,i)=>{by[x[0]][1]++;if(ans[i]===x[4]){score++;by[x[0]][0]++}else if(x[1])scope=false});const pass=score>=16&&scope;finalAttempt++;try{const key='tim_build09_final_first';if(!localStorage.getItem(key)){localStorage.setItem(key,JSON.stringify({answers:ans.slice(),score,scope,at:new Date().toISOString()}))}localStorage.setItem('tim_build09_final_last',JSON.stringify({attempt:finalAttempt,answers:ans.slice(),score,scope,pass,at:new Date().toISOString()}))}catch(e){}document.getElementById('score').textContent=score+'/'+finals.length;document.getElementById('resultHeading').textContent=pass?'Mastery achieved':'Review and retry';document.getElementById('summary').textContent=pass?'You met the overall score requirement and answered all five scope/consultation decisions correctly.':'Mastery requires at least 16 of 20 correct and all five Objective 4 scope/consultation items correct.';const ow=document.getElementById('objResults');ow.innerHTML='';Object.entries(by).forEach(([k,v])=>{const r=document.createElement('div');r.className='objrow';r.innerHTML=`<span><strong>Objective ${k}</strong><br><span class="note">${v[0]} of ${v[1]} correct</span></span><span class="${v[0]===v[1]?'pass':'review'}">${v[0]===v[1]?'Strong':'Review'}</span>`;ow.appendChild(r)});document.getElementById('remediation').innerHTML=pass?'<strong>Next step:</strong> Continue to supervised practice and performance feedback. Online mastery does not replace direct observation of clinical implementation.':'<strong>Recommended review:</strong> Revisit the section(s) tied to missed objectives. Any missed scope/consultation item should be reviewed before retaking.';const originalExplanations=[
 'This natural, learner-initiated interaction matches the written requesting goal; the RBT should follow the approved procedure.',
