@@ -1,5 +1,11 @@
 # Teaching in the Moment
 
-Public learner-facing website for the LDT 593 applied instructional prototype: Teaching in the Moment — Using Incidental Teaching to Expand Learning Opportunities in ABA Sessions.
+An interactive professional learning program for Registered Behavior Technicians.
 
-The complete course will be published here with its required image and narration assets.
+**Topic:** Using Incidental Teaching to Expand Learning Opportunities in ABA Sessions.
+
+This program includes five instructional sections, narrated instruction,
+interactive activities, decision-based scenarios, and assessments.
+
+Educational resource only. Follow the client's written treatment plan
+and the direction of the supervising BCBA.

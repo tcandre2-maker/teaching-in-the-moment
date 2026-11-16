@@ -1,0 +1,466 @@
+{
+  "course": "Teaching in the Moment",
+  "voice": "marin",
+  "model": "gpt-4o-mini-tts",
+  "files": [
+    {
+      "id": "welcome",
+      "section": 0,
+      "title": "Welcome to Teaching in the Moment",
+      "file": "00_Home_Welcome.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_intro",
+      "section": 1,
+      "title": "Section 1 introduction",
+      "file": "01_Section_1_introduction.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_definition",
+      "section": 1,
+      "title": "A Working Definition for RBT Practice",
+      "file": "01_A_Working_Definition_for_RBT_Practice.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_scope",
+      "section": 1,
+      "title": "RBT Scope and Treatment Integrity",
+      "file": "01_RBT_Scope_and_Treatment_Integrity.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_research",
+      "section": 1,
+      "title": "Why Natural Contexts Can Matter",
+      "file": "01_Why_Natural_Contexts_Can_Matter.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_opportunity",
+      "section": 1,
+      "title": "What Makes a Moment a Possible Incidental-Teaching Opportunity?",
+      "file": "01_What_Makes_a_Moment_a_Possible_Incidental_Teaching_Opportunity.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_research_deck",
+      "section": 1,
+      "title": "The History and Science Behind Incidental Teaching",
+      "file": "01_The_History_and_Science_Behind_Incidental_Teaching.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_card_1974",
+      "section": 1,
+      "title": "Research flashcard: Hart and Risley, 1974",
+      "file": "01_Research_flashcard_Hart_and_Risley_1974.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_card_1975",
+      "section": 1,
+      "title": "Research flashcard: Hart and Risley, 1975",
+      "file": "01_Research_flashcard_Hart_and_Risley_1975.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_card_1977",
+      "section": 1,
+      "title": "Research flashcard: Stokes and Baer, 1977",
+      "file": "01_Research_flashcard_Stokes_and_Baer_1977.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_card_1985",
+      "section": 1,
+      "title": "Research flashcard: McGee, Krantz, and McClannahan, 1985",
+      "file": "01_Research_flashcard_McGee_Krantz_and_McClannahan_1985.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_card_1992",
+      "section": 1,
+      "title": "Research flashcard: Peer incidental teaching",
+      "file": "01_Research_flashcard_Peer_incidental_teaching.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_card_motivation",
+      "section": 1,
+      "title": "Research flashcard: Learner motivation",
+      "file": "01_Research_flashcard_Learner_motivation.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_magnetic",
+      "section": 1,
+      "title": "Requesting a Preferred Magnetic Tile",
+      "file": "01_Requesting_a_Preferred_Magnetic_Tile.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_blocks",
+      "section": 1,
+      "title": "Building During Learner-Led Play",
+      "file": "01_Building_During_Learner_Led_Play.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_classification",
+      "section": 1,
+      "title": "Classification Practice",
+      "file": "01_Classification_Practice.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_scope_cases",
+      "section": 1,
+      "title": "Natural Opportunities, Contrived Barriers, and Scope",
+      "file": "01_Natural_Opportunities_Contrived_Barriers_and_Scope.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_water",
+      "section": 1,
+      "title": "Case A: Needed Water",
+      "file": "01_Case_A_Needed_Water.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s1_tiles",
+      "section": 1,
+      "title": "Case B: Preferred Tiles",
+      "file": "01_Case_B_Preferred_Tiles.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s2_intro",
+      "section": 2,
+      "title": "Section 2 introduction",
+      "file": "02_Section_2_introduction.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s2_observe",
+      "section": 2,
+      "title": "Observe What Is Already Happening",
+      "file": "02_Observe_What_Is_Already_Happening.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s2_boundaries",
+      "section": 2,
+      "title": "Clinical Boundaries Matter",
+      "file": "02_Clinical_Boundaries_Matter.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s2_judgment",
+      "section": 2,
+      "title": "Clinical Judgment Practice",
+      "file": "02_Clinical_Judgment_Practice.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s2_guided",
+      "section": 2,
+      "title": "Guided Application",
+      "file": "02_Guided_Application.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s2_observed",
+      "section": 2,
+      "title": "What Has Gem Actually Observed?",
+      "file": "02_What_Has_Gem_Actually_Observed.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_intro",
+      "section": 3,
+      "title": "Section 3 introduction",
+      "file": "03_Section_3_introduction.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_six_steps",
+      "section": 3,
+      "title": "Six-Step Implementation Sequence",
+      "file": "03_Six_Step_Implementation_Sequence.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_observation",
+      "section": 3,
+      "title": "Observation Practice: A and B",
+      "file": "03_Observation_Practice_A_and_B.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_observation_a",
+      "section": 3,
+      "title": "Observation A: Interpret the Plan",
+      "file": "03_Observation_A_Interpret_the_Plan.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_observation_b",
+      "section": 3,
+      "title": "Observation B: Preserve Independent Participation",
+      "file": "03_Observation_B_Preserve_Independent_Participation.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_plan_workshop",
+      "section": 3,
+      "title": "Plan Interpretation Workshop",
+      "file": "03_Plan_Interpretation_Workshop.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_plan_annotations",
+      "section": 3,
+      "title": "Open the Plan Annotations",
+      "file": "03_Open_the_Plan_Annotations.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_guided_lab",
+      "section": 3,
+      "title": "Guided Observation Lab",
+      "file": "03_Guided_Observation_Lab.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_aac_craft",
+      "section": 3,
+      "title": "Case A: AAC-Supported Craft",
+      "file": "03_Case_A_AAC_Supported_Craft.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s3_ambiguous",
+      "section": 3,
+      "title": "Case B: Ambiguous Prompt",
+      "file": "03_Case_B_Ambiguous_Prompt.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_intro",
+      "section": 4,
+      "title": "Section 4 introduction",
+      "file": "04_Section_4_introduction.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_bubbles",
+      "section": 4,
+      "title": "Bubbles and AAC",
+      "file": "04_Bubbles_and_AAC.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_prompt",
+      "section": 4,
+      "title": "The Plan Says “Prompt as Needed”",
+      "file": "04_The_Plan_Says_Prompt_as_Needed.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_aac_success",
+      "section": 4,
+      "title": "The Learner Uses AAC Successfully",
+      "file": "04_The_Learner_Uses_AAC_Successfully.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_communication",
+      "section": 4,
+      "title": "Communication-to-Goal Practice",
+      "file": "04_Communication_to_Goal_Practice.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_transfer",
+      "section": 4,
+      "title": "Goal-to-Context Transfer Lab",
+      "file": "04_Goal_to_Context_Transfer_Lab.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_lid",
+      "section": 4,
+      "title": "Case A: Help With the Lid",
+      "file": "04_Case_A_Help_With_the_Lid.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s4_transit",
+      "section": 4,
+      "title": "Case B: Transit Pass Kiosk",
+      "file": "04_Case_B_Transit_Pass_Kiosk.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_intro",
+      "section": 5,
+      "title": "Section 5 introduction",
+      "file": "05_Section_5_introduction.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_wait",
+      "section": 5,
+      "title": "Wait, Then Follow the Prescribed Prompt Sequence",
+      "file": "05_Wait_Then_Follow_the_Prescribed_Prompt_Sequence.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_transition",
+      "section": 5,
+      "title": "Interpret the Transition Before Responding",
+      "file": "05_Interpret_the_Transition_Before_Responding.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_break",
+      "section": 5,
+      "title": "Honor an Authorized Break Request",
+      "file": "05_Honor_an_Authorized_Break_Request.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_stop",
+      "section": 5,
+      "title": "Respect a Stop Signal When the Plan Is Unclear",
+      "file": "05_Respect_a_Stop_Signal_When_the_Plan_Is_Unclear.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_judgment",
+      "section": 5,
+      "title": "Clinical Judgment Practice",
+      "file": "05_Clinical_Judgment_Practice.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_magnetic",
+      "section": 5,
+      "title": "Case A: Magnetic-Tile Play",
+      "file": "05_Case_A_Magnetic_Tile_Play.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    },
+    {
+      "id": "s5_blocks",
+      "section": 5,
+      "title": "Case B: Block Construction",
+      "file": "05_Case_B_Block_Construction.mp3",
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts",
+      "status": "generated"
+    }
+  ]
+}
