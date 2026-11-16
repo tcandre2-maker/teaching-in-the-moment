@@ -1262,10 +1262,14 @@ details.transcript{border-color:#e8e1ed;background:#fff}
 
 <section class="screen" data-label="Results">
   <div class="results">
-    <div class="eyebrow">Results</div><h2 id="resultHeading">Final Challenge Results</h2><div class="score" id="score">0/20</div><p class="lede" id="summary"></p><div id="objResults"></div><div class="callout" id="remediation"></div>
-    <p class="note">Before leaving this page, take a screenshot of your results showing your overall score and objective-level performance. Select <strong>Submit results</strong> to open the post-assessment reporting form in a new tab and upload your screenshot.</p>
+    <div class="eyebrow">Results</div><h2 id="resultHeading">Final Challenge Results</h2><div class="score" id="score">0/20</div><p class="lede" id="summary"></p>
+    <div class="card" style="margin:18px 0;padding:18px;border-color:var(--lavender-border);background:var(--lavender)">
+      <h3 style="margin:0 0 8px">Submit your final assessment results</h3>
+      <p class="note" style="margin:0 0 12px">Take a screenshot of your overall score and objective-level performance below, then use the button to open the Google Form and upload your screenshot. The form opens in a new tab so you can keep these results available.</p>
+      <a class="btn cyan" id="submitResults" style="display:inline-flex;align-items:center;text-decoration:none;cursor:pointer" href="https://docs.google.com/forms/d/e/1FAIpQLScwen9eZK4QF4d3cZ9318Ge5JNZ20g29UZmA5gCBZHFP3Tt9A/viewform" target="_blank" rel="noopener noreferrer">Submit results (Google Form)</a>
+    </div>
+    <div id="objResults"></div><div class="callout" id="remediation"></div>
     <div class="actions">
-      <a class="btn cyan" id="submitResults" href="https://docs.google.com/forms/d/e/1FAIpQLScwen9eZK4QF4d3cZ9318Ge5JNZ20g29UZmA5gCBZHFP3Tt9A/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">Submit results</a>
       <button class="btn secondary" id="retake">Retake Final Challenge</button>
       <button class="btn secondary" id="review">Review Section 5</button>
     </div>
