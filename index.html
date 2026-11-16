@@ -1280,6 +1280,27 @@ details.transcript{border-color:#e8e1ed;background:#fff}
 </div>
 
 <script>
+/* Fresh learner entry: clear locally saved course progress only when ?fresh=1 is present. */
+(function resetForFreshLearner(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('fresh') === '1') {
+      [
+        'tim_build09_current_screen',
+        'tim_build09_pre_separated_first',
+        'tim_build09_pre_separated_score',
+        'tim_build09_final_draft',
+        'tim_build09_final_first',
+        'tim_build09_final_last'
+      ].forEach(key => localStorage.removeItem(key));
+      params.delete('fresh');
+      const query = params.toString();
+      const cleanUrl = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
+      window.history.replaceState({}, '', cleanUrl);
+    }
+  } catch (error) {}
+})();
+
 /* Section 1 reveal controls use delegated events so every control remains active
    even when other activity scripts initialize or render dynamically. */
 const sectionOneTermDefinitions={
