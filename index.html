@@ -641,6 +641,19 @@ details.transcript{border-color:#e8e1ed;background:#fff}
 @media(prefers-reduced-motion:reduce){.decision-tree-choice{transition:none}}
 
 </style>
+<style>
+/* Section 6 native radio controls: record answers through change events. */
+#final{position:relative;z-index:1;pointer-events:auto}
+#final .final-answer-progress{margin:0 0 22px;padding:15px 18px;border:1px solid #e5def0;border-radius:15px;background:#fff}
+#final .final-answer-progress-meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px;color:#514b70;font-size:.85rem}
+#final .final-answer-progress progress{display:block;width:100%;height:11px;accent-color:#5140b3}
+#final .final-option{display:flex;align-items:flex-start;gap:12px;width:100%;box-sizing:border-box;padding:14px 16px;border:1px solid #d4e1e3;border-radius:15px;background:#fff;color:var(--ink);font-weight:730;line-height:1.5;cursor:pointer;transition:border-color .16s ease,background .16s ease,box-shadow .16s ease}
+#final .final-option:hover{border-color:#8c7bce;background:#f8f6ff}
+#final .final-option.selected{border:2px solid #6a55d4;background:#f1edff;padding:13px 15px}
+#final .final-option input{flex:0 0 auto;width:19px;height:19px;margin:2px 0 0;accent-color:#5140b3;cursor:pointer}
+#final .final-option span{flex:1;min-width:0}
+#final .final-option:focus-within{outline:3px solid rgba(42,159,189,.28);outline-offset:2px}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -1491,36 +1504,83 @@ const finals=[
 [4,true,"The written plan defines the target but omits the reinforcement contingency for an unfamiliar context. Which response is appropriate?",["Choose a consequence based on preference.","Pause the uncertain scored teaching procedure and ask the BCBA to clarify.","Record a correct trial without implementing the plan."],1,"RBTs do not independently select clinically meaningful contingencies."],
 [4,true,"An RBT is asked to score a community performance using a new mastery criterion that is not in the current plan. What should happen?",["Use the new criterion as an informal experiment.","Change the response definition and document afterward.","Do not change criteria independently; request the BCBA's written direction."],2,"Changing mastery criteria or scoring definitions is outside independent RBT scope."]
 ];
-let finalAttempt=0;const ans=Array(finals.length).fill(null),fw=document.getElementById('final');
-function renderFinal(){
-  fw.innerHTML='';
-  finals.forEach((x,i)=>{
-    const c=document.createElement('div');
-    c.className='qcard';
-    c.style.marginBottom='16px';
-    c.innerHTML=`<div class="qmeta">Decision ${i+1} · Objective ${x[0]}${x[1]?' · Scope/Consultation':''}</div><h3>${x[2]}</h3><div class="choices">${x[3].map((t,j)=>`<button type="button" class="choice ${ans[i]===j?'selected':''}" data-fi="${i}" data-fc="${j}" aria-pressed="${ans[i]===j}">${t}</button>`).join('')}</div>`;
-    fw.appendChild(c);
-  });
-  document.getElementById('submitFinal').disabled=ans.some(v=>v===null);
+let finalAttempt=0;
+const finalDraftKey='tim_build09_final_draft';
+const ans=Array(finals.length).fill(null);
+const fw=document.getElementById('final');
+try{
+  const savedDraft=JSON.parse(localStorage.getItem(finalDraftKey)||'null');
+  if(savedDraft&&Array.isArray(savedDraft.answers)&&savedDraft.answers.length===finals.length){
+    savedDraft.answers.forEach((value,index)=>{
+      if(Number.isInteger(value)&&value>=0&&value<finals[index][3].length)ans[index]=value;
+    });
+  }
+}catch(error){}
+function updateFinalProgress(){
+  const count=ans.filter(value=>value!==null).length;
+  const countLabel=document.getElementById('finalAnswerCount');
+  const progressBar=document.getElementById('finalAnswerProgressBar');
+  const submitButton=document.getElementById('submitFinal');
+  if(countLabel)countLabel.textContent='Answered '+count+' of '+finals.length;
+  if(progressBar)progressBar.value=count;
+  if(submitButton)submitButton.disabled=count!==finals.length;
 }
-fw.addEventListener('click',event=>{
-  const choice=event.target.closest('button[data-fi][data-fc]');
-  if(!choice||!fw.contains(choice))return;
-  event.preventDefault();
-  const item=Number(choice.dataset.fi);
-  const selected=Number(choice.dataset.fc);
-  if(!Number.isInteger(item)||!Number.isInteger(selected)||!finals[item]||selected<0||selected>=finals[item][3].length)return;
-  ans[item]=selected;
-  const question=choice.closest('.qcard');
-  question.querySelectorAll('button[data-fi][data-fc]').forEach(button=>{
-    const active=Number(button.dataset.fc)===selected;
-    button.classList.toggle('selected',active);
-    button.setAttribute('aria-pressed',String(active));
+function renderFinal(){
+  if(!fw)return;
+  fw.replaceChildren();
+
+  const progress=document.createElement('div');
+  progress.className='final-answer-progress';
+  progress.innerHTML='<div class="final-answer-progress-meta"><strong id="finalAnswerCount" aria-live="polite"></strong><span>All questions are required</span></div><progress id="finalAnswerProgressBar" max="'+finals.length+'" value="0" aria-label="Post-assessment answers recorded"></progress>';
+  fw.appendChild(progress);
+
+  finals.forEach((item,index)=>{
+    const card=document.createElement('article');
+    card.className='qcard final-question';
+    const meta=document.createElement('div');
+    meta.className='qmeta';
+    meta.textContent='Decision '+(index+1)+' · Objective '+item[0]+(item[1]?' · Scope/Consultation':'');
+    const question=document.createElement('h3');
+    question.textContent=item[2];
+    const group=document.createElement('div');
+    group.className='choices final-choice-group';
+    group.setAttribute('role','radiogroup');
+    group.setAttribute('aria-label','Decision '+(index+1)+' answer choices');
+
+    item[3].forEach((optionText,choiceIndex)=>{
+      const label=document.createElement('label');
+      label.className='final-option'+(ans[index]===choiceIndex?' selected':'');
+      const radio=document.createElement('input');
+      radio.type='radio';
+      radio.name='final-answer-'+index;
+      radio.value=String(choiceIndex);
+      radio.checked=ans[index]===choiceIndex;
+      radio.setAttribute('aria-label',optionText);
+      const option=document.createElement('span');
+      option.textContent=optionText;
+      radio.addEventListener('change',()=>{
+        if(!radio.checked)return;
+        ans[index]=choiceIndex;
+        group.querySelectorAll('.final-option').forEach(optionLabel=>{
+          const selected=optionLabel.querySelector('input')?.checked===true;
+          optionLabel.classList.toggle('selected',selected);
+        });
+        try{
+          localStorage.setItem(finalDraftKey,JSON.stringify({answers:ans.slice(),updatedAt:new Date().toISOString()}));
+        }catch(error){}
+        updateFinalProgress();
+      });
+      label.append(radio,option);
+      group.appendChild(label);
+    });
+
+    card.append(meta,question,group);
+    fw.appendChild(card);
   });
-  document.getElementById('submitFinal').disabled=ans.some(value=>value===null);
-});
+  updateFinalProgress();
+}
 renderFinal();
-document.getElementById('submitFinal').onclick=()=>{let score=0,scope=true;const by={1:[0,0],2:[0,0],3:[0,0],4:[0,0]};finals.forEach((x,i)=>{by[x[0]][1]++;if(ans[i]===x[4]){score++;by[x[0]][0]++}else if(x[1])scope=false});const pass=score>=16&&scope;finalAttempt++;try{const key='tim_build09_final_first';if(!localStorage.getItem(key)){localStorage.setItem(key,JSON.stringify({answers:ans.slice(),score,scope,at:new Date().toISOString()}))}localStorage.setItem('tim_build09_final_last',JSON.stringify({attempt:finalAttempt,answers:ans.slice(),score,scope,pass,at:new Date().toISOString()}))}catch(e){}document.getElementById('score').textContent=score+'/'+finals.length;document.getElementById('resultHeading').textContent=pass?'Mastery achieved':'Review and retry';document.getElementById('summary').textContent=pass?'You met the overall score requirement and answered all five scope/consultation decisions correctly.':'Mastery requires at least 16 of 20 correct and all five Objective 4 scope/consultation items correct.';const ow=document.getElementById('objResults');ow.innerHTML='';Object.entries(by).forEach(([k,v])=>{const r=document.createElement('div');r.className='objrow';r.innerHTML=`<span><strong>Objective ${k}</strong><br><span class="note">${v[0]} of ${v[1]} correct</span></span><span class="${v[0]===v[1]?'pass':'review'}">${v[0]===v[1]?'Strong':'Review'}</span>`;ow.appendChild(r)});document.getElementById('remediation').innerHTML=pass?'<strong>Next step:</strong> Continue to supervised practice and performance feedback. Online mastery does not replace direct observation of clinical implementation.':'<strong>Recommended review:</strong> Revisit the section(s) tied to missed objectives. Any missed scope/consultation item should be reviewed before retaking.';const originalExplanations=[
+document.getElementById('submitFinal').addEventListener('click',()=>{let score=0,scope=true;const by={1:[0,0],2:[0,0],3:[0,0],4:[0,0]};finals.forEach((x,i)=>{by[x[0]][1]++;if(ans[i]===x[4]){score++;by[x[0]][0]++}else if(x[1])scope=false});const pass=score>=16&&scope;finalAttempt++;try{const key='tim_build09_final_first';if(!localStorage.getItem(key)){localStorage.setItem(key,JSON.stringify({answers:ans.slice(),score,scope,at:new Date().toISOString()}))}localStorage.setItem('tim_build09_final_last',JSON.stringify({attempt:finalAttempt,answers:ans.slice(),score,scope,pass,at:new Date().toISOString()}))}catch(e){}document.getElementById('score').textContent=score+'/'+finals.length;document.getElementById('resultHeading').textContent=pass?'Mastery achieved':'Review and retry';document.getElementById('summary').textContent=pass?'You met the overall score requirement and answered all five scope/consultation decisions correctly.':'Mastery requires at least 16 of 20 correct and all five Objective 4 scope/consultation items correct.';const ow=document.getElementById('objResults');ow.innerHTML='';Object.entries(by).forEach(([k,v])=>{const r=document.createElement('div');r.className='objrow';r.innerHTML=`<span><strong>Objective ${k}</strong><br><span class="note">${v[0]} of ${v[1]} correct</span></span><span class="${v[0]===v[1]?'pass':'review'}">${v[0]===v[1]?'Strong':'Review'}</span>`;ow.appendChild(r)});document.getElementById('remediation').innerHTML=pass?'<strong>Next step:</strong> Continue to supervised practice and performance feedback. Online mastery does not replace direct observation of clinical implementation.':'<strong>Recommended review:</strong> Revisit the section(s) tied to missed objectives. Any missed scope/consultation item should be reviewed before retaking.';const originalExplanations=[
 'This natural, learner-initiated interaction matches the written requesting goal; the RBT should follow the approved procedure.',
 'Removing an authorized AAC device is an inappropriate access barrier and changes the valid response conditions.',
 'The existing assistance-request goal fits the learner asking for help during a grocery routine.',
@@ -1542,8 +1602,8 @@ const explanations=finals.map((it,i)=>{
 document.getElementById('finalDetailedFeedback')?.remove();
 document.getElementById('remediation').insertAdjacentHTML('afterend',
  '<details class="transcript post-feedback" id="finalDetailedFeedback" open><summary>Review post-assessment decisions and explanations ('+finals.length+')</summary><ol>'+explanations.join('')+'</ol></details>');
-show('Results')};
-document.getElementById('retake').onclick=()=>{ans.fill(null);renderFinal();show('Section 6')};document.getElementById('review').onclick=()=>show('Section 5');
+try{localStorage.removeItem(finalDraftKey)}catch(error){}show('Results')});
+document.getElementById('retake').onclick=()=>{ans.fill(null);try{localStorage.removeItem(finalDraftKey)}catch(error){}renderFinal();show('Section 6')};document.getElementById('review').onclick=()=>show('Section 5');
 
 const branchScenarios=[{"id":"snack","title":"Scenario decision branch · Snack preparation","intro":"The learner points toward a bowl of pretzels during a familiar snack routine. The written plan includes requesting preferred items in this routine.","qs":[["What is the observable event? ",["The learner points toward the pretzels.","The learner is manipulating the RBT.","The learner has mastered all snack goals."],0,"Describe the visible gesture. Do not infer mastery or intent beyond the observation."],["Which goal is the best match? ",["An unrelated color-matching target.","The existing request-for-item goal that covers snack.","A new food-tolerance goal invented during snack."],1,"Select only a written goal that matches the observed response and context."],["What should Gem do before prompting? ",["Immediately prompt speech.","Wait for the response opportunity specified in the plan.","Move the preferred snack farther away."],1,"Use the plan-specified opportunity and avoid manufacturing an unnecessary barrier."],["The learner points independently. What is next? ",["Honor the authorized request and follow the programmed consequence.","Require a spoken word before providing the item.","Prompt again to strengthen the gesture."],0,"Honor the approved response form and programmed outcome."],["How should the response be documented? ",["As independent only if the plan's definition is met; record the actual response.","As prompted because the RBT was present.","Do not record because snack is a natural routine."],0,"Record the observed response and prompt level according to the written data definitions."]]},{"id":"magnetic","title":"Scenario decision branch · Magnetic-tile play","intro":"During magnetic-tile play, the learner points toward a blue square tile. The current plan accepts this gesture as a request during play.","qs":[["What makes this a possible opportunity? ",["A naturally occurring gesture in a context covered by the plan.","The RBT can create a new shape-labeling goal.","The RBT should remove the learner's other tiles."],0,"The learner's observable gesture and plan coverage are the relevant features."],["What goal should guide the response? ",["A new color-naming target.","The authorized requesting goal for play.","Any goal involving fine-motor skills."],1,"Choose the closest written goal, not an unrelated skill."],["What should the RBT do with the other tiles? ",["Keep access as arranged; do not create barriers unless the plan specifies them.","Hide all tiles to force repeated requests.","Remove the AAC system to encourage speech."],0,"Do not manipulate access or communication modalities to manufacture trials."],["The learner points before any prompt. What should happen? ",["Provide the requested tile according to the plan.","Prompt the gesture again.","Require a more complex response."],0,"An independent authorized response should not be unnecessarily prompted."],["The plan says to record independent gestures separately. What should be entered? ",["The actual independent gesture and its programmed outcome.","A vocal response because the learner looked at Gem.","A prompted response to avoid over-crediting."],0,"Data must reflect the topography and independence actually observed."]]},{"id":"blocks","title":"Scenario decision branch · Block construction","intro":"The learner is building a structure and holds a red triangular block above the structure. Gem is observing the learner-led activity.","qs":[["What should Gem do first? ",["Observe the learner's current action and check which written targets apply.","Immediately ask the learner to label every block.","Take over the structure to demonstrate."],0,"Start with observation; do not turn every play action into a demand."],["Which teaching opportunity is appropriate? ",["Any new shape goal Gem thinks would help.","A goal already authorized for this play context, such as requesting or labeling if listed.","A target selected only because the materials are available."],1,"The materials do not authorize a new target; the treatment plan defines scope."],["The learner pauses and looks at Gem. The plan specifies a response interval. What next? ",["Use the specified interval before the authorized prompt, if needed.","Use a universal delay chosen by Gem.","Prompt immediately regardless of the plan."],0,"Follow the individualized timing and prompting sequence."],["The learner asks for help using an approved response. What is the best response? ",["Provide the assistance described in the plan.","Require the learner to finish independently.","Change the goal to problem solving."],0,"Respond to the authorized communication according to the programmed procedure."],["Gem notices the learner also sorts blocks by color, but no sorting goal exists. What should she do? ",["Score the behavior under an unrelated goal.","Create a sorting target for the session.","Note the observation and consult the BCBA about possible future programming."],2,"RBTs may report observations but do not independently add treatment targets."]]},{"id":"art","title":"Scenario decision branch · Requesting art supplies","intro":"The learner points toward a container of markers on a shelf during an art activity. The written plan includes requesting materials in art routines.","qs":[["What is the relevant observable response? ",["The learner points toward the marker container.","The learner wants every item on the shelf.","The learner is refusing art."],0,"Record the visible point and context without assigning an unobserved motive."],["What goal is relevant? ",["A new shelf-navigation goal.","The authorized request-for-materials target for art.","A general compliance target."],1,"Match the moment to an existing goal in the specified context."],["What should Gem do if the plan specifies a brief time delay? ",["Follow that delay before using the specified prompt, if needed.","Use a physical prompt immediately.","Wait as long as she personally prefers."],0,"The treatment plan, not personal preference, determines the response sequence."],["The learner points independently. What should Gem do? ",["Provide access to the markers as programmed.","Ask for a vocal response even if pointing is accepted.","Move the markers to another shelf."],0,"Honor the accepted communication form and programmed consequence."],["What if the marker-request target does not cover this setting? ",["Assume it generalizes and score it anyway.","Create a new target in the moment.","Do not score it as an authorized target; consult the BCBA."],2,"A natural moment does not expand the written program automatically."]]},{"id":"aac","title":"Scenario decision branch · AAC-supported help request","intro":"During an art activity, the learner touches the approved help icon on an AAC device while holding a craft pouch. The plan specifies assistance after an independent AAC request.","qs":[["What is the learner's observable communication? ",["An independent selection of the approved help icon.","A prompted vocal request.","A refusal to participate."],0,"Identify the communication form actually observed."],["Which response form is authorized? ",["Speech only, regardless of the plan.","AAC, as specified in the current goal.","Any response Gem prefers."],1,"The written plan defines accepted response forms."],["What should Gem do after the independent request? ",["Provide the assistance described in the plan.","Model the icon again before helping.","Require the learner to repeat the request."],0,"Do not add an unnecessary response requirement after a complete request."],["How should the response be scored? ",["As independent AAC if it meets the written definition.","As prompted because an adult was nearby.","As a vocal request."],0,"Score the actual form and independence using the plan's definitions."],["Gem thinks speech would be more age-appropriate. What is within scope? ",["Require speech starting now.","Disable AAC during art.","Continue honoring authorized AAC and consult the BCBA before any change."],2,"An RBT must not independently change response definitions or remove communication access."]]},{"id":"transition","title":"Scenario decision branch · Classroom transition","intro":"After an art activity, the learner carries the marker container toward the designated storage shelf. The visual schedule and transition target are part of the written plan.","qs":[["What is the primary observable action? ",["The learner carries the container toward storage.","The learner is avoiding work.","The learner has completed every transition goal."],0,"Describe the action without inferring motivation or mastery."],["Which goal best matches this context? ",["The authorized transition or cleanup sequence.","An unrelated snack-requesting target.","A newly invented organization goal."],0,"Match the observed action to the target that covers this routine."],["The learner follows the visual cue independently. What should Gem do? ",["Allow the independent transition to continue.","Interrupt to add extra prompts.","Change the transition cue."],0,"Do not interrupt a successful independent response without a plan-based reason."],["The learner pauses at the shelf, and the plan specifies a gestural prompt. What next? ",["Use the specified gestural prompt at the plan-defined point.","Use physical guidance because it is faster.","Invent a verbal prompt sequence."],0,"Use the prompt and timing already prescribed."],["The visual schedule is unclear for a new classroom routine. What should Gem do? ",["Invent a new schedule and mastery criterion.","Pause any uncertain procedural change and ask the BCBA for clarification.","Score the transition as independent regardless."],1,"Consultation is appropriate when the written procedure does not clearly cover the context."]]}];
 
